@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>坦克大战 - Web版</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="title">坦克大战</div>
+        <div class="hud" id="hud">
+          <span>分数：<b id="score">0</b></span>
+          <span>生命：<b id="lives">3</b></span>
+          <span>敌人：<b id="enemies">0</b></span>
+          <span class="hint">移动：WASD/方向键 ｜ 开火：空格/Enter ｜ 重开：R</span>
+        </div>
+      </header>
+
+      <main class="stage">
+        <canvas id="game" width="832" height="640" aria-label="game canvas"></canvas>
+        <div class="overlay" id="overlay" hidden>
+          <div class="panel">
+            <div class="panel-title" id="overlayTitle">暂停</div>
+            <div class="panel-body" id="overlayBody"></div>
+            <div class="panel-actions">
+              <button id="btnResume" class="btn">继续</button>
+              <button id="btnRestart" class="btn primary">重新开始</button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <span>提示：砖墙可被打碎，钢墙不可打碎；敌人会随机移动与射击。</span>
+      </footer>
+    </div>
+
+    <script src="./game.js"></script>
+  </body>
+</html>

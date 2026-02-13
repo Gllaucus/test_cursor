@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>房租预测小助手（后端版）</title>
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      body {
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      .rent-app {
+        margin: 18px auto 24px;
+        padding: 20px 18px 18px;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(15, 23, 42, 0.74);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+        color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+      }
+      .rent-title {
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+      .rent-sub {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 10px;
+      }
+      .rent-api-tip {
+        font-size: 11px;
+        color: rgba(148, 163, 184, 0.95);
+        margin-bottom: 12px;
+      }
+      .rent-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px 18px;
+        margin-bottom: 14px;
+      }
+      .field-label {
+        font-size: 13px;
+        margin-bottom: 4px;
+      }
+      .field-label span {
+        color: rgba(248, 250, 252, 0.7);
+        font-weight: 500;
+      }
+      .field-label small {
+        color: rgba(148, 163, 184, 0.9);
+        margin-left: 4px;
+      }
+      .field-input input {
+        width: 100%;
+        padding: 8px 9px;
+        border-radius: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: rgba(15, 23, 42, 0.9);
+        color: #e5e7eb;
+      }
+      .field-input input:focus {
+        outline: none;
+        border-color: #8b5cf6;
+        box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.7);
+      }
+      .rent-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 12px;
+      }
+      .btn-main {
+        border: none;
+        border-radius: 999px;
+        padding: 9px 16px;
+        font-weight: 700;
+        cursor: pointer;
+        color: #f9fafb;
+        background: linear-gradient(135deg, #8b5cf6, #22c55e);
+        box-shadow: 0 12px 25px rgba(34, 197, 94, 0.35);
+      }
+      .btn-main:hover {
+        filter: brightness(1.04);
+      }
+      .rent-result {
+        margin-top: 4px;
+        padding-top: 10px;
+        border-top: 1px dashed rgba(148, 163, 184, 0.6);
+      }
+      .rent-price {
+        font-size: 22px;
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+      .muted {
+        font-size: 12px;
+        color: rgba(148, 163, 184, 0.95);
+      }
+      .rent-error {
+        margin-top: 6px;
+        font-size: 12px;
+        color: #fecaca;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rent-app">
+      <div class="rent-title">房租预测小助手（使用你的 Python 模型）</div>
+      <div class="rent-sub">前端只负责收集参数并调用你的 Python 接口，房租算法完全由你提供的函数决定。</div>
+      <div class="rent-api-tip">
+        默认会请求路径 <code>/api/rent</code>，你可以在 Python 服务里暴露这个接口，或在 <code>rent_api.js</code> 里修改为自己的地址。
+      </div>
+
+      <div class="rent-grid">
+        <div>
+          <div class="field-label">
+            <span>面积</span><small>m²</small>
+          </div>
+          <div class="field-input">
+            <input id="area" type="number" min="5" max="500" step="1" placeholder="例如：80" />
+          </div>
+        </div>
+        <div>
+          <div class="field-label">
+            <span>房间数</span><small>卧室 + 客厅</small>
+          </div>
+          <div class="field-input">
+            <input id="rooms" type="number" min="1" max="10" step="1" placeholder="例如：3（两室一厅≈3）" />
+          </div>
+        </div>
+        <div>
+          <div class="field-label">
+            <span>房龄</span><small>年</small>
+          </div>
+          <div class="field-input">
+            <input id="age" type="number" min="0" max="70" step="1" placeholder="例如：8" />
+          </div>
+        </div>
+      </div>
+
+      <div class="rent-actions">
+        <button id="btnCalc" class="btn-main">调用后端估算</button>
+        <span class="muted">你的 Python 函数只需要暴露一个 HTTP 接口：接收面积/房间数/房龄，返回一个月租金数字。</span>
+      </div>
+
+      <div class="rent-result" id="result" hidden>
+        <div class="rent-price" id="priceText">——</div>
+        <div class="muted" id="detailText"></div>
+        <div class="rent-error" id="errorText" hidden></div>
+      </div>
+    </div>
+
+    <script src="./rent_api.js"></script>
+  </body>
+</html>
+
