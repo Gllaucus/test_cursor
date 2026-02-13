@@ -4,11 +4,16 @@ import torch.nn as nn
 import torch.optim as optim
 import random
 import numpy as np
+
+
+
+
 # 设置显示选项，防止省略
 pd.set_option('display.max_columns', None)  # 显示所有列
 pd.set_option('display.max_rows', None)     # 显示所有行（谨慎使用，数据多时会刷屏）
 pd.set_option('display.width', None)        # 自动换行，适应终端宽度
 pd.set_option('display.colheader_justify', 'left')  # 左对齐列名
+pd.set_option('display.float_format', '{:.2f}'.format)  # 浮点数显示格式（可选）
 pd.set_option('display.float_format', '{:.2f}'.format)  # 浮点数显示格式（可选）
 
 # ================== 设置随机种子（确保结果可复现）==================
